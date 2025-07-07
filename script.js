@@ -1,3 +1,32 @@
+const mapaEstados = {
+  "AC": { nome: "Acre", regiao: "Norte" },
+  "AL": { nome: "Alagoas", regiao: "Nordeste" },
+  "AP": { nome: "Amapá", regiao: "Norte" },
+  "AM": { nome: "Amazonas", regiao: "Norte" },
+  "BA": { nome: "Bahia", regiao: "Nordeste" },
+  "CE": { nome: "Ceará", regiao: "Nordeste" },
+  "DF": { nome: "Distrito Federal", regiao: "Centro-Oeste" },
+  "ES": { nome: "Espírito Santo", regiao: "Sudeste" },
+  "GO": { nome: "Goiás", regiao: "Centro-Oeste" },
+  "MA": { nome: "Maranhão", regiao: "Nordeste" },
+  "MT": { nome: "Mato Grosso", regiao: "Centro-Oeste" },
+  "MS": { nome: "Mato Grosso do Sul", regiao: "Centro-Oeste" },
+  "MG": { nome: "Minas Gerais", regiao: "Sudeste" },
+  "PA": { nome: "Pará", regiao: "Norte" },
+  "PB": { nome: "Paraíba", regiao: "Nordeste" },
+  "PR": { nome: "Paraná", regiao: "Sul" },
+  "PE": { nome: "Pernambuco", regiao: "Nordeste" },
+  "PI": { nome: "Piauí", regiao: "Nordeste" },
+  "RJ": { nome: "Rio de Janeiro", regiao: "Sudeste" },
+  "RN": { nome: "Rio Grande do Norte", regiao: "Nordeste" },
+  "RS": { nome: "Rio Grande do Sul", regiao: "Sul" },
+  "RO": { nome: "Rondônia", regiao: "Norte" },
+  "RR": { nome: "Roraima", regiao: "Norte" },
+  "SC": { nome: "Santa Catarina", regiao: "Sul" },
+  "SP": { nome: "São Paulo", regiao: "Sudeste" },
+  "SE": { nome: "Sergipe", regiao: "Nordeste" },
+  "TO": { nome: "Tocantins", regiao: "Norte" }
+};
 document.getElementById("cepForm").addEventListener("submit", async (event) => {
   const cepDigitado = document.getElementById("cep").value.replace(/\D/g, "");
 
@@ -24,6 +53,15 @@ document.getElementById("cepForm").addEventListener("submit", async (event) => {
     document.getElementById("cidade").value =
       dados.localidade || "Não disponível";
     document.getElementById("uf").value = dados.uf || "Não disponível";
+
+    const infoEstado = mapaEstados[dados.uf];
+    if (infoEstado) {
+      document.getElementById("estado").value = infoEstado.nome;
+      document.getElementById("regiao").value = infoEstado.regiao;
+    } else {
+      document.getElementById("estado").value = "Desconhecido";
+      document.getElementById("regiao").value = "Desconhecida";
+    }
   } catch (erro) {
     console.error("Erro ao buscar o CEP:", erro);
     alert("Erro ao consultar o CEP.");
@@ -94,10 +132,6 @@ function mostrarCeps() {
 
     const btn = document.createElement("button");
     btn.textContent = "Remover";
-    btn.style.marginLeft = "10px";
-
-    const btn1 = document.createElement("button");
-    btn.textContent = "Editar";
     btn.style.marginLeft = "10px";
 
     btn.addEventListener("click", () => {
